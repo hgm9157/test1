@@ -25,7 +25,7 @@ IF NOT "%PID%"=="" (
 
 :: 새로운 JAR 실행
 echo Starting application: %JAR_PATH%
-start /MIN java -jar %JAR_PATH% > C:\logs\output.log 2>&1
+cmd /c java -jar %JAR_PATH% > C:\logs\output.log 2>&1
 
 :: 대기 시간 (필요하면 수정 가능)
 timeout 5 >nul
