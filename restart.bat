@@ -27,7 +27,7 @@ IF NOT "%PID%"=="" (
 
 :: 새로운 JAR 실행 (백그라운드)
 echo Starting application: %JAR_PATH%
-start /B java -jar %JAR_PATH%
+start /min java -jar %JAR_PATH%
 
 :: 대기 시간 (서버가 실행될 시간을 기다림)
 ::timeout /t 10 /nobreak >nul
@@ -35,4 +35,4 @@ start /B java -jar %JAR_PATH%
 :: 스크립트 종료
 echo Deployment script completed.
 
-exit 0
+::exit 0
