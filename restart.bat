@@ -22,6 +22,6 @@ endlocal
 
 :: 새로 빌드된 JAR 파일 실행
 
-start /b java -jar C:\ProgramData\Jenkins\.jenkins\workspace\test1\build\libs\hgm.jar
+start /d java -jar C:\ProgramData\Jenkins\.jenkins\workspace\test1\build\libs\hgm.jar output.log 2>&1
 
 echo Application restarted successfully.
