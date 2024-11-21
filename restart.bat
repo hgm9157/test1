@@ -31,4 +31,4 @@ cmd /c java -jar %JAR_PATH% > C:\logs\output.log 2>&1
 timeout 5 >nul
 
 echo Deployment script completed.
-exit /b 0
+exit 0
