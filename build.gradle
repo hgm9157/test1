@@ -21,6 +21,11 @@ springBoot {
     mainClass = 'com.example.demo.DemoApplication'  // 실제 main 클래스 경로를 지정해야 합니다.
 }
 
+bootJar {
+    archiveBaseName = 'hgm'
+}
+
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
