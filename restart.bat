@@ -1,27 +1,34 @@
 @echo off
+:: 설정 - 사용할 포트와 JAR 파일 경로
+SET PORT=8084
+SET JAR_PATH=C:\ProgramData\Jenkins\.jenkins\workspace\test1\build\libs\hgm.jar
 
-@echo off
-setlocal enabledelayedexpansion
-
-:: 찾고자 하는 포트 번호 설정
-set PORT=8084
-:: 해당 포트를 사용하는 프로세스의 PID 찾기
-for /f "tokens=5" %%a in ('netstat -ano ^| findstr :%PORT%') do (
-    set PID=%%a
+:: 기존 포트 사용 프로세스 찾기
+FOR /F "tokens=5" %%i IN ('netstat -ano ^| findstr :%PORT%') DO (
+    SET PID=%%i
+    echo Port %PORT% is being used by process ID: %PID%
 )
 
-:: PID가 존재하는 경우 프로세스를 종료
-if defined PID (
-    echo Killing process with PID: !PID!
-    taskkill /F /PID !PID!
-) else (
-    echo No process found on port %PORT%.
+:: 프로세스 종료
+IF NOT "%PID%"=="" (
+    echo Terminating process %PID% using port %PORT%...
+    taskkill /PID %PID% /F
+    IF %ERRORLEVEL%==0 (
+        echo Successfully terminated process %PID%.
+    ) ELSE (
+        echo Failed to terminate process %PID%. Ensure you have administrator privileges.
+        exit /b 1
+    )
+) ELSE (
+    echo No process found using port %PORT%.
 )
 
-endlocal
+:: 새로운 JAR 실행
+echo Starting application: %JAR_PATH%
+start /MIN java -jar %JAR_PATH% > C:\logs\output.log 2>&1
 
-:: 새로 빌드된 JAR 파일 실행
+:: 대기 시간 (필요하면 수정 가능)
+timeout 5 >nul
 
-start /d java -jar C:\ProgramData\Jenkins\.jenkins\workspace\test1\build\libs\hgm.jar output.log 2>&1
-
-echo Application restarted successfully.
+echo Deployment script completed.
+exit /b 0
